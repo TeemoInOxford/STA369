@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Tianyi He" />
+  <meta name="dcterms.date" content="2024-07-27" />
+  <title>STA 369 Class 02 @ HD &amp; Lecture 03 @ UOA</title>
+
+<style type="text/css" charset="utf-8">
+/* cleanrmd basic defaults */
+body {
+  /* at least one is usually overridden by the theme, but these ensure the
+  body doesn't go all the way up to the screen edge */
+  margin: 0.5em auto;
+  padding: 0.5em;
+  max-width: 48em;
+}
+code, code * { font-family: inherit; }
+
+@media only screen and (max-width: 768px) {
+  body { max-width: 100%; }
+}
+</style>
+
+  
+  <link href="class02_modified_files/cleanrmd-0.1.1.9000/theme-picker.css" rel="stylesheet" />
+  <script src="class02_modified_files/cleanrmd-0.1.1.9000/theme-picker.js"></script>
+  <script id="theme-picker-themes" type="application/json">[{"name":"almond","src":"almond/almond.css"},{"name":"awsm.css","src":"awsm.css/awsm.css"},{"name":"axist","src":"axist/axist.css"},{"name":"bamboo","src":"bamboo/bamboo.css"},{"name":"bullframe","src":"bullframe/bullframe.css"},{"name":"holiday","src":"holiday/holiday.css"},{"name":"kacit","src":"kacit/kacit.css"},{"name":"latex.css","src":"latex.css/latex.css"},{"name":"markdown-splendor","src":"markdown-splendor/markdown-splendor.css"},{"name":"markdown-retro","src":"markdown-retro/markdown-retro.css"},{"name":"markdown-air","src":"markdown-air/markdown-air.css"},{"name":"markdown-modest","src":"markdown-modest/markdown-modest.css"},{"name":"marx","src":"marx/marx.css"},{"name":"minicss","src":"minicss/minicss.css"},{"name":"new.css","src":"new.css/new.css"},{"name":"no-class","src":"no-class/no-class.css"},{"name":"picocss","src":"picocss/pico.css"},{"name":"sakura","src":"sakura/sakura.css"},{"name":"sakura-vader","src":"sakura-vader/sakura-vader.css"},{"name":"semantic","src":"semantic/semantic.css"},{"name":"simplecss","src":"simplecss/simple.css"},{"name":"style-sans","src":"style-sans/style-sans.css"},{"name":"style-serif","src":"style-serif/style-serif.css"},{"name":"stylize","src":"stylize/stylize.css"},{"name":"superstylin","src":"superstylin/superstylin.css"},{"name":"tacit","src":"tacit/tacit.css"},{"name":"vanilla","src":"vanilla/vanilla.css"},{"name":"water","src":"water/water.css"},{"name":"water-dark","src":"water-dark/water-dark.css"},{"name":"writ","src":"writ/writ.css"}]</script>
+
+<style type="text/css" charset="utf-8">
+/* cleanrmd overrides */
+img { max-width: 100%; }
+</style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: auto;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+<script>
+// remove everything from pandoc code styles _except_ for 'code span' colors
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      if (/^code span/.test(rule.selectorText)) {
+        j++;
+        continue;
+      }
+      sheets[i].deleteRule(j);
+    }
+  }
+})();
+</script>
+
+<style>
+code, pre { overflow: auto; }
+pre code, pre code:not([class]) { white-space: unset; }
+</style>
+
+
+</head>
+<body>
+
+
+<main>
+<header>
+<h1 id="title" class="toc-ignore">STA 369 Class 02 @ HD &amp; Lecture 03
+@ UOA</h1>
+<p id="date">2024-07-27</p>
+<p id="author">Tianyi He</p>
+
+</header>
+
+
+<h2 id="separate-示例">1. <code>separate()</code> 示例</h2>
+<p>我们使用 R 自带的 <code>mtcars</code>
+数据集，将汽车品牌和型号分开：</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载所需包</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载mtcars数据集</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 假设我们要分离汽车品牌和型号</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 首先，创建一个包含品牌和型号的字符串列</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>model_str <span class="ot">&lt;-</span> <span class="fu">rownames</span>(mtcars)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用separate()函数分离品牌和型号</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>mtcars_separated <span class="ot">&lt;-</span> <span class="fu">separate</span>(mtcars, model_str, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;brand&quot;</span>, <span class="st">&quot;model&quot;</span>), <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看分离后的数据集</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars_separated[, <span class="fu">c</span>(<span class="st">&quot;brand&quot;</span>, <span class="st">&quot;model&quot;</span>)])</span></code></pre></div>
+<pre><code>##                     brand      model
+## Mazda RX4           Mazda        RX4
+## Mazda RX4 Wag       Mazda        RX4
+## Datsun 710         Datsun        710
+## Hornet 4 Drive     Hornet          4
+## Hornet Sportabout  Hornet Sportabout
+## Valiant           Valiant       &lt;NA&gt;</code></pre>
+<h2 id="mutate-示例">2. <code>mutate()</code> 示例</h2>
+<p>我们在 mtcars
+数据集中添加一个新的列，计算每辆车的每加仑油耗的燃油效率（mpg）：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载mtcars数据集</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用mutate()函数添加新列 &#39;mpg_efficiency&#39;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mtcars_with_mpg <span class="ot">&lt;-</span> <span class="fu">mutate</span>(mtcars, <span class="at">mpg_efficiency =</span> <span class="dv">30</span> <span class="sc">/</span> mpg)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看添加新列后的数据集</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars_with_mpg[, <span class="fu">c</span>(<span class="st">&quot;mpg&quot;</span>, <span class="st">&quot;mpg_efficiency&quot;</span>)])</span></code></pre></div>
+<pre><code>##                    mpg mpg_efficiency
+## Mazda RX4         21.0       1.428571
+## Mazda RX4 Wag     21.0       1.428571
+## Datsun 710        22.8       1.315789
+## Hornet 4 Drive    21.4       1.401869
+## Hornet Sportabout 18.7       1.604278
+## Valiant           18.1       1.657459</code></pre>
+<h2 id="summarise-示例">3. <code>summarise()</code> 示例</h2>
+<p>计算 mtcars 数据集中每加仑油耗（mpg）的平均值和标准差：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用summarise()函数计算每加仑油耗的平均值和标准差</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_mpg =</span> <span class="fu">mean</span>(mpg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_mpg =</span> <span class="fu">sd</span>(mpg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看汇总结果</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>summary_stats</span></code></pre></div>
+<pre><code>##    avg_mpg   sd_mpg
+## 1 20.09062 6.026948</code></pre>
+<h2 id="分组操作-group_by-和-summarise">4. 分组操作
+(<code>group_by()</code> 和 <code>summarise()</code>)</h2>
+<p>按气缸数分组，并计算每组中每加仑油耗的平均值和标准差：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用group_by()和summarise()进行分组汇总</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>grouped_summary <span class="ot">&lt;-</span> mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cyl) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_mpg =</span> <span class="fu">mean</span>(mpg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_mpg =</span> <span class="fu">sd</span>(mpg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看分组汇总结果</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>grouped_summary</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##     cyl avg_mpg sd_mpg
+##   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+## 1     4    26.7   4.51
+## 2     6    19.7   1.45
+## 3     8    15.1   2.56</code></pre>
+<h2 id="数据连接操作">5. 数据连接操作</h2>
+<h3 id="left_join">5.1 <code>left_join()</code></h3>
+<p>将保留左侧数据集中的所有行：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载所需包</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建mtcars_info数据集</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>mtcars_info <span class="ot">&lt;-</span> mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;model&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model, mpg, cyl, hp)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建mtcars_extra数据集</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>mtcars_extra <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="fu">c</span>(<span class="st">&quot;example 1&quot;</span>, <span class="st">&quot;example 2&quot;</span>, <span class="st">&quot;example 3&quot;</span>, <span class="st">&quot;example 4&quot;</span>, <span class="st">&quot;Mazda RX4&quot;</span>, <span class="st">&quot;Mazda RX4 Wag&quot;</span>, <span class="st">&quot;example 11&quot;</span>, <span class="st">&quot;example 22&quot;</span>, <span class="st">&quot;example 33&quot;</span>, <span class="st">&quot;example 44&quot;</span>, <span class="st">&quot;example 111&quot;</span>, <span class="st">&quot;example 222&quot;</span>, <span class="st">&quot;example 333&quot;</span>, <span class="st">&quot;example 444&quot;</span>, <span class="st">&quot;example 1111&quot;</span>, <span class="st">&quot;example 2222&quot;</span>, <span class="st">&quot;example 3333&quot;</span>, <span class="st">&quot;example 4444&quot;</span>, <span class="st">&quot;example 15&quot;</span>, <span class="st">&quot;example 25&quot;</span>),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">manufacturer =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ford&quot;</span>, <span class="st">&quot;Chevrolet&quot;</span>), <span class="at">length.out =</span> <span class="dv">20</span>),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">rep</span>(<span class="dv">2020</span><span class="sc">:</span><span class="dv">2021</span>, <span class="at">length.out =</span> <span class="dv">20</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用left_join()连接数据集</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>left_join_result <span class="ot">&lt;-</span> <span class="fu">left_join</span>(mtcars_info, mtcars_extra, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看结果</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>left_join_result</span></code></pre></div>
+<pre><code>##                  model  mpg cyl  hp manufacturer year
+## 1            Mazda RX4 21.0   6 110         Ford 2020
+## 2        Mazda RX4 Wag 21.0   6 110    Chevrolet 2021
+## 3           Datsun 710 22.8   4  93         &lt;NA&gt;   NA
+## 4       Hornet 4 Drive 21.4   6 110         &lt;NA&gt;   NA
+## 5    Hornet Sportabout 18.7   8 175         &lt;NA&gt;   NA
+## 6              Valiant 18.1   6 105         &lt;NA&gt;   NA
+## 7           Duster 360 14.3   8 245         &lt;NA&gt;   NA
+## 8            Merc 240D 24.4   4  62         &lt;NA&gt;   NA
+## 9             Merc 230 22.8   4  95         &lt;NA&gt;   NA
+## 10            Merc 280 19.2   6 123         &lt;NA&gt;   NA
+## 11           Merc 280C 17.8   6 123         &lt;NA&gt;   NA
+## 12          Merc 450SE 16.4   8 180         &lt;NA&gt;   NA
+## 13          Merc 450SL 17.3   8 180         &lt;NA&gt;   NA
+## 14         Merc 450SLC 15.2   8 180         &lt;NA&gt;   NA
+## 15  Cadillac Fleetwood 10.4   8 205         &lt;NA&gt;   NA
+## 16 Lincoln Continental 10.4   8 215         &lt;NA&gt;   NA
+## 17   Chrysler Imperial 14.7   8 230         &lt;NA&gt;   NA
+## 18            Fiat 128 32.4   4  66         &lt;NA&gt;   NA
+## 19         Honda Civic 30.4   4  52         &lt;NA&gt;   NA
+## 20      Toyota Corolla 33.9   4  65         &lt;NA&gt;   NA
+## 21       Toyota Corona 21.5   4  97         &lt;NA&gt;   NA
+## 22    Dodge Challenger 15.5   8 150         &lt;NA&gt;   NA
+## 23         AMC Javelin 15.2   8 150         &lt;NA&gt;   NA
+## 24          Camaro Z28 13.3   8 245         &lt;NA&gt;   NA
+## 25    Pontiac Firebird 19.2   8 175         &lt;NA&gt;   NA
+## 26           Fiat X1-9 27.3   4  66         &lt;NA&gt;   NA
+## 27       Porsche 914-2 26.0   4  91         &lt;NA&gt;   NA
+## 28        Lotus Europa 30.4   4 113         &lt;NA&gt;   NA
+## 29      Ford Pantera L 15.8   8 264         &lt;NA&gt;   NA
+## 30        Ferrari Dino 19.7   6 175         &lt;NA&gt;   NA
+## 31       Maserati Bora 15.0   8 335         &lt;NA&gt;   NA
+## 32          Volvo 142E 21.4   4 109         &lt;NA&gt;   NA</code></pre>
+<h3 id="right_join">5.2 <code>right_join()</code></h3>
+<p>将保留右侧数据集中的所有行：</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用right_join()连接数据集</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>right_join_result <span class="ot">&lt;-</span> <span class="fu">right_join</span>(mtcars_info, mtcars_extra, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看结果</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>right_join_result</span></code></pre></div>
+<pre><code>##            model mpg cyl  hp manufacturer year
+## 1      Mazda RX4  21   6 110         Ford 2020
+## 2  Mazda RX4 Wag  21   6 110    Chevrolet 2021
+## 3      example 1  NA  NA  NA         Ford 2020
+## 4      example 2  NA  NA  NA    Chevrolet 2021
+## 5      example 3  NA  NA  NA         Ford 2020
+## 6      example 4  NA  NA  NA    Chevrolet 2021
+## 7     example 11  NA  NA  NA         Ford 2020
+## 8     example 22  NA  NA  NA    Chevrolet 2021
+## 9     example 33  NA  NA  NA         Ford 2020
+## 10    example 44  NA  NA  NA    Chevrolet 2021
+## 11   example 111  NA  NA  NA         Ford 2020
+## 12   example 222  NA  NA  NA    Chevrolet 2021
+## 13   example 333  NA  NA  NA         Ford 2020
+## 14   example 444  NA  NA  NA    Chevrolet 2021
+## 15  example 1111  NA  NA  NA         Ford 2020
+## 16  example 2222  NA  NA  NA    Chevrolet 2021
+## 17  example 3333  NA  NA  NA         Ford 2020
+## 18  example 4444  NA  NA  NA    Chevrolet 2021
+## 19    example 15  NA  NA  NA         Ford 2020
+## 20    example 25  NA  NA  NA    Chevrolet 2021</code></pre>
+<h3 id="full_join">5.3 <code>full_join()</code></h3>
+<p>将保留两个数据集中的所有行：</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用full_join()连接数据集</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>full_join_result <span class="ot">&lt;-</span> <span class="fu">full_join</span>(mtcars_info, mtcars_extra, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看结果</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>full_join_result</span></code></pre></div>
+<pre><code>##                  model  mpg cyl  hp manufacturer year
+## 1            Mazda RX4 21.0   6 110         Ford 2020
+## 2        Mazda RX4 Wag 21.0   6 110    Chevrolet 2021
+## 3           Datsun 710 22.8   4  93         &lt;NA&gt;   NA
+## 4       Hornet 4 Drive 21.4   6 110         &lt;NA&gt;   NA
+## 5    Hornet Sportabout 18.7   8 175         &lt;NA&gt;   NA
+## 6              Valiant 18.1   6 105         &lt;NA&gt;   NA
+## 7           Duster 360 14.3   8 245         &lt;NA&gt;   NA
+## 8            Merc 240D 24.4   4  62         &lt;NA&gt;   NA
+## 9             Merc 230 22.8   4  95         &lt;NA&gt;   NA
+## 10            Merc 280 19.2   6 123         &lt;NA&gt;   NA
+## 11           Merc 280C 17.8   6 123         &lt;NA&gt;   NA
+## 12          Merc 450SE 16.4   8 180         &lt;NA&gt;   NA
+## 13          Merc 450SL 17.3   8 180         &lt;NA&gt;   NA
+## 14         Merc 450SLC 15.2   8 180         &lt;NA&gt;   NA
+## 15  Cadillac Fleetwood 10.4   8 205         &lt;NA&gt;   NA
+## 16 Lincoln Continental 10.4   8 215         &lt;NA&gt;   NA
+## 17   Chrysler Imperial 14.7   8 230         &lt;NA&gt;   NA
+## 18            Fiat 128 32.4   4  66         &lt;NA&gt;   NA
+## 19         Honda Civic 30.4   4  52         &lt;NA&gt;   NA
+## 20      Toyota Corolla 33.9   4  65         &lt;NA&gt;   NA
+## 21       Toyota Corona 21.5   4  97         &lt;NA&gt;   NA
+## 22    Dodge Challenger 15.5   8 150         &lt;NA&gt;   NA
+## 23         AMC Javelin 15.2   8 150         &lt;NA&gt;   NA
+## 24          Camaro Z28 13.3   8 245         &lt;NA&gt;   NA
+## 25    Pontiac Firebird 19.2   8 175         &lt;NA&gt;   NA
+## 26           Fiat X1-9 27.3   4  66         &lt;NA&gt;   NA
+## 27       Porsche 914-2 26.0   4  91         &lt;NA&gt;   NA
+## 28        Lotus Europa 30.4   4 113         &lt;NA&gt;   NA
+## 29      Ford Pantera L 15.8   8 264         &lt;NA&gt;   NA
+## 30        Ferrari Dino 19.7   6 175         &lt;NA&gt;   NA
+## 31       Maserati Bora 15.0   8 335         &lt;NA&gt;   NA
+## 32          Volvo 142E 21.4   4 109         &lt;NA&gt;   NA
+## 33           example 1   NA  NA  NA         Ford 2020
+## 34           example 2   NA  NA  NA    Chevrolet 2021
+## 35           example 3   NA  NA  NA         Ford 2020
+## 36           example 4   NA  NA  NA    Chevrolet 2021
+## 37          example 11   NA  NA  NA         Ford 2020
+## 38          example 22   NA  NA  NA    Chevrolet 2021
+## 39          example 33   NA  NA  NA         Ford 2020
+## 40          example 44   NA  NA  NA    Chevrolet 2021
+## 41         example 111   NA  NA  NA         Ford 2020
+## 42         example 222   NA  NA  NA    Chevrolet 2021
+## 43         example 333   NA  NA  NA         Ford 2020
+## 44         example 444   NA  NA  NA    Chevrolet 2021
+## 45        example 1111   NA  NA  NA         Ford 2020
+## 46        example 2222   NA  NA  NA    Chevrolet 2021
+## 47        example 3333   NA  NA  NA         Ford 2020
+## 48        example 4444   NA  NA  NA    Chevrolet 2021
+## 49          example 15   NA  NA  NA         Ford 2020
+## 50          example 25   NA  NA  NA    Chevrolet 2021</code></pre>
+<h3 id="inner_join">5.4 <code>inner_join()</code></h3>
+<p>仅保留两个数据集中的匹配行：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用inner_join()连接数据集</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>inner_join_result <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(mtcars_info, mtcars_extra, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看结果</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>inner_join_result</span></code></pre></div>
+<pre><code>##           model mpg cyl  hp manufacturer year
+## 1     Mazda RX4  21   6 110         Ford 2020
+## 2 Mazda RX4 Wag  21   6 110    Chevrolet 2021</code></pre>
+
+</main>
+
+
+
+</body>
+</html>

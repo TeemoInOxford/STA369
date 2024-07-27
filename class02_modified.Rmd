@@ -1,0 +1,148 @@
+---
+title: "STA 369 Class 02 @ HD & Lecture 03 @ UOA"
+author: "Tianyi He"
+date: "2024-07-27"
+output:
+    cleanrmd::html_document_clean:
+      theme: null
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. `separate()` 示例
+
+我们使用 R 自带的 `mtcars` 数据集，将汽车品牌和型号分开：
+
+```{r separate-example, echo=TRUE, message=FALSE, warning=FALSE}
+# 加载所需包
+library(tidyr)
+library(dplyr)
+library(tibble)
+
+# 加载mtcars数据集
+data(mtcars)
+
+# 假设我们要分离汽车品牌和型号
+# 首先，创建一个包含品牌和型号的字符串列
+mtcars$model_str <- rownames(mtcars)
+
+# 使用separate()函数分离品牌和型号
+mtcars_separated <- separate(mtcars, model_str, into = c("brand", "model"), sep = " ")
+
+# 查看分离后的数据集
+head(mtcars_separated[, c("brand", "model")])
+```
+
+## 2. `mutate()` 示例
+我们在 mtcars 数据集中添加一个新的列，计算每辆车的每加仑油耗的燃油效率（mpg）：
+
+```{r}
+# 加载mtcars数据集
+data(mtcars)
+
+# 使用mutate()函数添加新列 'mpg_efficiency'
+mtcars_with_mpg <- mutate(mtcars, mpg_efficiency = 30 / mpg)
+
+# 查看添加新列后的数据集
+head(mtcars_with_mpg[, c("mpg", "mpg_efficiency")])
+
+```
+
+## 3. `summarise()` 示例
+计算 mtcars 数据集中每加仑油耗（mpg）的平均值和标准差：
+
+```{r}
+# 使用summarise()函数计算每加仑油耗的平均值和标准差
+summary_stats <- mtcars %>%
+  summarise(
+    avg_mpg = mean(mpg, na.rm = TRUE),
+    sd_mpg = sd(mpg, na.rm = TRUE)
+  )
+
+# 查看汇总结果
+summary_stats
+
+```
+
+## 4. 分组操作 (`group_by()` 和 `summarise()`)
+按气缸数分组，并计算每组中每加仑油耗的平均值和标准差：
+
+```{r}
+# 使用group_by()和summarise()进行分组汇总
+grouped_summary <- mtcars %>%
+  group_by(cyl) %>%
+  summarise(
+    avg_mpg = mean(mpg, na.rm = TRUE),
+    sd_mpg = sd(mpg, na.rm = TRUE)
+  )
+
+# 查看分组汇总结果
+grouped_summary
+
+```
+
+## 5. 数据连接操作
+### 5.1 `left_join()`
+将保留左侧数据集中的所有行：
+
+```{r}
+# 加载所需包
+library(dplyr)
+library(tibble)
+
+# 创建mtcars_info数据集
+mtcars_info <- mtcars %>%
+  rownames_to_column(var = "model") %>%
+  select(model, mpg, cyl, hp)
+
+# 创建mtcars_extra数据集
+mtcars_extra <- data.frame(
+  model = c("example 1", "example 2", "example 3", "example 4", "Mazda RX4", "Mazda RX4 Wag", "example 11", "example 22", "example 33", "example 44", "example 111", "example 222", "example 333", "example 444", "example 1111", "example 2222", "example 3333", "example 4444", "example 15", "example 25"),
+  manufacturer = rep(c("Ford", "Chevrolet"), length.out = 20),
+  year = rep(2020:2021, length.out = 20)
+)
+
+# 使用left_join()连接数据集
+left_join_result <- left_join(mtcars_info, mtcars_extra, by = "model")
+
+# 查看结果
+left_join_result
+
+```
+
+### 5.2 `right_join()`
+将保留右侧数据集中的所有行：
+```{r}
+# 使用right_join()连接数据集
+right_join_result <- right_join(mtcars_info, mtcars_extra, by = "model")
+
+# 查看结果
+right_join_result
+
+```
+
+### 5.3 `full_join()`
+将保留两个数据集中的所有行：
+```{r}
+# 使用full_join()连接数据集
+full_join_result <- full_join(mtcars_info, mtcars_extra, by = "model")
+
+# 查看结果
+full_join_result
+
+```
+
+### 5.4 `inner_join()`
+仅保留两个数据集中的匹配行：
+
+```{r}
+# 使用inner_join()连接数据集
+inner_join_result <- inner_join(mtcars_info, mtcars_extra, by = "model")
+
+# 查看结果
+inner_join_result
+
+```
+
