@@ -150,6 +150,7 @@ pre code, pre code:not([class]) { white-space: unset; }
 </header>
 
 
+<h1 id="lecture-03">Lecture 03</h1>
 <h2 id="separate-示例">1. <code>separate()</code> 示例</h2>
 <p>我们使用 R 自带的 <code>mtcars</code>
 数据集，将汽车品牌和型号分开：</p>
@@ -380,10 +381,390 @@ pre code, pre code:not([class]) { white-space: unset; }
 <pre><code>##           model mpg cyl  hp manufacturer year
 ## 1     Mazda RX4  21   6 110         Ford 2020
 ## 2 Mazda RX4 Wag  21   6 110    Chevrolet 2021</code></pre>
+<h1 id="lecture-04">Lecture 04</h1>
+<h2 id="数据生成">1. 数据生成</h2>
+<p>我们首先生成一组模拟数据，这些数据遵循简单线性关系：</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载所需包</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置随机种子以确保结果可重复</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成模拟数据</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> epsilon</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建数据框</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看前几行数据</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<pre><code>##          x         y
+## 1 44.39524  91.65927
+## 2 47.69823 101.16710
+## 3 65.58708 135.43409
+## 4 50.70508 105.36754
+## 5 51.29288 104.73090
+## 6 67.15065 139.16622</code></pre>
+<h2 id="拟合线性回归模型">2. 拟合线性回归模型</h2>
+<p>我们使用 lm() 函数来拟合简单线性回归模型：</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 拟合线性回归模型</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> data)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看模型摘要</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.7220 -2.0505 -0.2625  1.7419  9.8712 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  5.47867    1.65794   3.304  0.00133 ** 
+## x            1.98426    0.03206  61.885  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.912 on 98 degrees of freedom
+## Multiple R-squared:  0.975,  Adjusted R-squared:  0.9748 
+## F-statistic:  3830 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>得出的结论：</p>
+<ul>
+<li>Since the p-value of <code>2e-16 &lt; 0.05</code>, we have enough
+evidence to conclude that x is significant.</li>
+<li><code>97.48%</code> of y can be explained by <code>x</code>.</li>
+<li>For every unit increased in <code>x</code>, <code>y</code> will be
+increased by <code>1.98426</code> unit.</li>
+<li>The equation of the model can be written by
+<code>y = 5.47867 + 1.98426 * x</code>.</li>
+</ul>
+<h2 id="预测和结果可视化">3. 预测和结果可视化</h2>
+<p>我们可以使用拟合的模型进行预测，并将结果可视化：</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 预测值</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>predicted_y <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> data)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制数据和拟合线</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">y =</span> predicted_y), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;简单线性回归模型&quot;</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;自变量 x&quot;</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;因变量 y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="class02_modified_files/figure-html5/unnamed-chunk-9-1.png" width="960" /></p>
+<h4 id="rss">RSS</h4>
+<p>每一个蓝点到红线之间的距离的平方，全部相加，得到的就是<code>RSS</code>.</p>
+<h5 id="为什么要加这个平方">为什么要加这个平方？</h5>
+<ul>
+<li>放大误差：使得模型对大的误差更加敏感</li>
+<li>避免负值：避免因为正负值互相抵消而被忽略的拟合好坏</li>
+</ul>
+<p>记一下三个公式：</p>
+<p><span class="math display">\[RSS = \sum_{i} (y_i -
+\hat{y}_i)^2\]</span> <span class="math display">\[TSS = \sum_{i} (y_i -
+\bar{y}_i)^2\]</span> <span class="math display">\[R^2 = \frac{TSS -
+RSS}{TSS} = 1 - \frac{RSS}{TSS}\]</span></p>
+<ul>
+<li><p>The observations are independent.</p></li>
+<li><p>The <strong>true</strong> relationship between <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> is linear.</p></li>
+<li><p>For the error term is normally distributed and of a constant
+variance, i.e. <span class="math inline">\(Y = X \beta +
+\epsilon\)</span>, <span class="math inline">\(\epsilon \sim
+\text{Normal}(\mu, \sigma)\)</span>.</p>
+<ul>
+<li><p>Errors are independent.</p></li>
+<li><p>Errors are independent with <span
+class="math inline">\(X\)</span>.</p></li>
+<li><p>Errors are normally distributed.</p></li>
+<li><p>Homoscedasticity of errors (equal-variance).</p></li>
+</ul></li>
+</ul>
+<h2 id="模型诊断">4. 模型诊断</h2>
+<p>检查模型的诊断信息，包括残差和拟合值：</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制残差图</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div>
+<p><img src="class02_modified_files/figure-html5/unnamed-chunk-10-1.png" width="960" /></p>
+<h2 id="transformation-interaction">Transformation &amp;
+Interaction</h2>
+<h3 id="数据生成-1">1. 数据生成</h3>
+<p>我们首先生成一组模拟数据，并添加一个交互作用项：</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载所需包</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置随机种子以确保结果可重复</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成模拟数据</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">30</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>beta2 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>beta12 <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x1 <span class="sc">+</span> beta2 <span class="sc">*</span> x2 <span class="sc">+</span> beta12 <span class="sc">*</span> x1 <span class="sc">*</span> x2 <span class="sc">+</span> epsilon</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建数据框</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> x1, <span class="at">x2 =</span> x2, <span class="at">y =</span> y)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看前几行数据</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<pre><code>##         x1       x2        y
+## 1 44.39524 26.44797 1950.374
+## 2 47.69823 31.28442 2444.129
+## 3 65.58708 28.76654 3056.218
+## 4 50.70508 28.26229 2348.475
+## 5 51.29288 25.24191 2128.335
+## 6 67.15065 29.77486 3230.347</code></pre>
+<h3 id="数据变换">2. 数据变换</h3>
+<p>我们对 <code>x1</code> 和 <code>y</code>
+进行对数变换，观察变换对模型的影响：</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 对数变换</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>log_x1 <span class="ot">&lt;-</span> <span class="fu">log</span>(data<span class="sc">$</span>x1 <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># +1 避免对数计算中的负值</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>log_y <span class="ot">&lt;-</span> <span class="fu">log</span>(data<span class="sc">$</span>y <span class="sc">+</span> <span class="dv">1</span>)   <span class="co"># +1 避免对数计算中的负值</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 拟合变换后的线性回归模型</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>model_transformed <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_y <span class="sc">~</span> log_x1 <span class="sc">+</span> x2, <span class="at">data =</span> data)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看模型摘要</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_transformed)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_y ~ log_x1 + x2, data = data)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.081558 -0.004407  0.006573  0.010765  0.020685 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 2.9936402  0.0388797   77.00   &lt;2e-16 ***
+## log_x1      0.9796682  0.0094167  104.03   &lt;2e-16 ***
+## x2          0.0315778  0.0003545   89.06   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.01705 on 97 degrees of freedom
+## Multiple R-squared:  0.9947, Adjusted R-squared:  0.9946 
+## F-statistic:  9059 on 2 and 97 DF,  p-value: &lt; 2.2e-16</code></pre>
+<h3 id="交互作用">3. 交互作用</h3>
+<p>我们将拟合一个包含 <code>x1</code> 和 <code>x2</code>
+交互作用项的线性回归模型：</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 拟合包含交互作用项的线性回归模型</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>model_interaction <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">*</span> x2, <span class="at">data =</span> data)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看模型摘要</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_interaction)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x1 * x2, data = data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.360 -3.389 -0.543  2.949 11.583 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 35.86089   16.74106   2.142 0.034716 *  
+## x1           1.47627    0.33307   4.432 2.48e-05 ***
+## x2           2.23881    0.57341   3.904 0.000176 ***
+## x1:x2        1.51591    0.01145 132.402  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.734 on 96 degrees of freedom
+## Multiple R-squared:  0.9999, Adjusted R-squared:  0.9999 
+## F-statistic: 4.366e+05 on 3 and 96 DF,  p-value: &lt; 2.2e-16</code></pre>
+<h3 id="结果可视化">4. 结果可视化</h3>
+<h4 id="数据变换后的结果可视化">4.1 数据变换后的结果可视化</h4>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制原始数据</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;原始数据&quot;</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;自变量 x1&quot;</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;因变量 y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制对数变换后的数据</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> log_x1, <span class="at">y =</span> log_y)) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;对数变换后的数据&quot;</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;对数变换后的 x1&quot;</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;对数变换后的 y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 显示图形</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="class02_modified_files/figure-html5/unnamed-chunk-13-1.png" width="960" /></p>
+<h4 id="交互作用项的可视化">4.2 交互作用项的可视化</h4>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制包含交互作用的模型预测</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>predicted_y <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_interaction, <span class="at">newdata =</span> data)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成交互作用效果图</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> predicted_y, <span class="at">color =</span> <span class="fu">factor</span>(x2))) <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> x2), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;交互作用模型的预测结果&quot;</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;自变量 x1&quot;</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;预测的 y&quot;</span>,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;自变量 x2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="class02_modified_files/figure-html5/unnamed-chunk-14-1.png" width="960" /></p>
+<h4 id="数据变换的意义">数据变换的意义</h4>
+<h5 id="对数变换log-transformation"><strong>对数变换（Log
+Transformation）</strong>：</h5>
+<ul>
+<li><strong>目的</strong>：对数变换通常用于处理数据中的非线性关系或异方差性（即方差不恒定）。它可以使数据分布更加接近正态分布，从而使模型假设更符合实际情况。</li>
+<li><strong>效果</strong>：对数变换可以使得数据中的极端值影响减小，帮助改善模型的拟合效果和解释能力。</li>
+</ul>
+<h4 id="交互作用的意义">交互作用的意义</h4>
+<h5
+id="交互作用interaction"><strong>交互作用（Interaction）</strong>：</h5>
+<ul>
+<li><strong>目的</strong>：交互作用项用于表示自变量之间的相互影响。简单来说，如果一个自变量对因变量的影响依赖于另一个自变量的水平，那么这两个自变量之间存在交互作用。</li>
+<li><strong>效果</strong>：引入交互作用项可以帮助捕捉这种复杂关系，从而使模型对数据的拟合更加准确。</li>
+</ul>
+<h2 id="bootstrap">Bootstrap</h2>
+<h3 id="数据生成-2">1. 数据生成</h3>
+<p>我们生成一组模拟数据：</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载所需包</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置随机种子以确保结果可重复</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成模拟数据</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> epsilon</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建数据框</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看前几行数据</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<pre><code>##          x         y
+## 1 44.39524  91.65927
+## 2 47.69823 101.16710
+## 3 65.58708 135.43409
+## 4 50.70508 105.36754
+## 5 51.29288 104.73090
+## 6 67.15065 139.16622</code></pre>
+<h3 id="bootstrap-方法">2. Bootstrap 方法</h3>
+<p>我们使用 Bootstrap 方法来估计线性回归模型参数的标准误差：</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载所需包</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 定义回归模型函数</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>boot_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[indices, ]  <span class="co"># 重新抽样</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">coef</span>(fit))</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行Bootstrap抽样</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(data, <span class="at">statistic =</span> boot_fn, <span class="at">R =</span> <span class="dv">1000</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看Bootstrap结果</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bootstrap_results)</span></code></pre></div>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = boot_fn, R = 1000)
+## 
+## 
+## Bootstrap Statistics :
+##     original       bias    std. error
+## t1* 5.478665  0.039044917  1.68026627
+## t2* 1.984259 -0.000669357  0.03151438</code></pre>
+<h3 id="sandwich-方法">3. Sandwich 方法</h3>
+<p>我们使用 Sandwich 方法来计算稳健标准误差：</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载所需包</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 拟合线性回归模型</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> data)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 计算稳健标准误差</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>robust_se <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(model, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(model, <span class="at">type =</span> <span class="st">&quot;HC1&quot;</span>))</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看结果</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(robust_se)</span></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##             Estimate Std. Error t value  Pr(&gt;|t|)    
+## (Intercept) 5.478665   1.670626  3.2794  0.001441 ** 
+## x           1.984259   0.031282 63.4316 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<h3 id="结果解释">4. 结果解释</h3>
+<p>我们可以将标准回归结果与稳健标准误差进行对比：</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 标准回归结果</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>##             Estimate Std. Error   t value     Pr(&gt;|t|)
+## (Intercept) 5.478665 1.65794262  3.304496 1.329703e-03
+## x           1.984259 0.03206358 61.885111 2.330948e-80</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap结果</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>bootstrap_results</span></code></pre></div>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = boot_fn, R = 1000)
+## 
+## 
+## Bootstrap Statistics :
+##     original       bias    std. error
+## t1* 5.478665  0.039044917  1.68026627
+## t2* 1.984259 -0.000669357  0.03151438</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sandwich结果</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>robust_se</span></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##             Estimate Std. Error t value  Pr(&gt;|t|)    
+## (Intercept) 5.478665   1.670626  3.2794  0.001441 ** 
+## x           1.984259   0.031282 63.4316 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 
 </main>
 
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+  document.getElementsByTagName("head")[0].appendChild(script);
+});
+</script>
 
 </body>
 </html>
